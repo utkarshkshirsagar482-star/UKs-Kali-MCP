@@ -1,57 +1,88 @@
-#UK's AI 
-
 # MCP Host - Web-based AI Chat Application
 
 ## Overview
-A web-based MCP (Model Context Protocol) host application similar to Fire or LM Studio. The application enables users to interact with AI models through OpenRouter API, manage custom API keys, configure MCP servers via JSON, and engage in real-time chat conversations.
+A web-based MCP (Model Context Protocol) host application designed for efficient, token-optimized AI interactions. This tool acts as a bridge between LLMs (via OpenRouter) and local tools/MCP servers, implementing an "Executor-Reviewer" agentic workflow to ensure accuracy and minimize token usage.
 
-## Project Purpose
-Provide developers with a powerful, web-based interface to:
-- Connect to OpenRouter-compatible AI models (GPT-4, Claude, etc.)
-- Manage multiple API keys securely
-- Configure MCP servers through JSON file uploads
-- Chat with AI in real-time with streaming responses
-- Monitor server status and connections
+## Key Features
+*   **Token-Optimized Agent:** Implements an Executor-Reviewer loop where tool outputs are truncated and reviewed before the final response is generated, significantly reducing token consumption for long-running tasks.
+*   **Pentest MCP Server:** Includes a specialized Python-based MCP server (`pentest_mcp.py`) that allows the agent to execute shell commands (`execute_command`), run Python scripts, and perform Nmap scans (`nmap_scan`).
+*   **Universal Tool Compatibility:** Designed to call *any* Kali Linux tool (Python, Go, Binaries) via the generic `execute_command` interface.
+*   **Web-Based Interface:** Clean, developer-focused UI (React + Tailwind) for chatting and management.
+*   **MCP Server Support:** Configure and connect to MCP servers via JSON configuration.
+*   **OpenRouter Integration:** Flexible model selection (GPT-4, Claude 3.5 Sonnet, etc.).
+*   **API Key Management:** Securely manage multiple API keys.
 
 ## Architecture
-**Stack**: Full-stack JavaScript (Node.js + React)
-- Frontend: React with Wouter routing, TanStack Query, Shadcn UI components
-- Backend: Express.js with WebSocket support for real-time streaming
-- Storage: In-memory storage (MemStorage) for sessions and configurations
-- Real-time: WebSocket connection for chat streaming
+**Stack**: Full-stack JavaScript (Node.js + React) + Python
+- **Frontend**: React, Wouter (Routing), TanStack Query, Tailwind CSS
+- **Backend**: Express.js, Drizzle ORM (Schema), In-Memory Storage
+- **Agent**: Custom "Executor-Reviewer" workflow implementation in `server/agent.ts`
+- **Pentest Server**: Python script (`pentest_mcp.py`) implementing the MCP protocol to expose system tools.
 
-## Core Features (MVP)
-1. **Chat Interface**: Real-time chat with AI models, streaming responses, message history
-2. **API Key Management**: Add, store, test, and delete OpenRouter API keys
-3. **MCP Server Configuration**: Upload and validate JSON configuration files
-4. **Model Selection**: Choose from available OpenRouter models
-5. **Server Status**: Display connected MCP servers and their status
-6. **Clean UI**: Split-panel layout with sidebar navigation and main content area
+## Installation & Usage
 
-## Recent Changes
-- 2025-01-24: Project initialized with design guidelines
+### Prerequisites
+- Node.js v20+
+- npm
+- Python 3.10+
+- pip
 
-## User Preferences
-- Prefers developer-focused, functional UI similar to Linear/GitHub
-- Wants web-based solution (not desktop)
-- Needs OpenRouter API compatibility
-- Requires JSON-based MCP server configuration
+### Local Setup
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/mcp-host.git
+    cd mcp-host
+    ```
+2.  Install Node.js dependencies:
+    ```bash
+    npm install
+    ```
+3.  Install Python dependencies for the Pentest Server:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  Start the development server:
+    ```bash
+    npm run dev
+    ```
+    The application will be available at `http://localhost:5000`.
+
+### Running on Kali Linux
+This application is fully compatible with Kali Linux and can be used as a security/automation dashboard.
+
+1.  **Install Node.js & Python (if not installed):**
+    ```bash
+    sudo apt update
+    sudo apt install -y nodejs npm python3 python3-pip nmap
+    ```
+2.  **Setup and Run:**
+    Follow the "Local Setup" steps above.
+3.  **Network Access:**
+    The server listens on `0.0.0.0` by default. If you are running Kali in a VM or container, you can access the interface from your host machine using the VM's IP address: `http://<KALI_IP>:5000`.
+
+### Production Build
+To build for production:
+```bash
+npm run build
+npm start
+```
 
 ## Project Structure
 ```
-client/
+client/             # Frontend React application
   src/
-    components/     # Reusable UI components
-    pages/          # Page components (Chat, API Keys, MCP Servers, Settings)
-    lib/            # Utilities and helpers
-server/
-  routes.ts         # API routes and WebSocket setup
-  storage.ts        # In-memory data storage
-shared/
-  schema.ts         # Data models and TypeScript interfaces
+    components/     # UI components
+    pages/          # Chat, API Keys, MCP Servers pages
+server/             # Backend Express application
+  agent.ts          # Agentic workflow logic (Executor/Reviewer)
+  mcp_client.ts     # Client to connect to the Python MCP server
+  routes.ts         # API endpoints
+  storage.ts        # In-memory database storage
+pentest_mcp.py      # Python MCP Server exposing system tools
+shared/             # Shared Types & Schema (Drizzle/Zod)
 ```
 
-## Technical Details
-- WebSocket path: `/ws` for real-time chat streaming
-- API prefix: `/api` for all REST endpoints
-- Design system: Custom tokens in tailwind.config.ts following design_guidelines.md
+## Configuration
+- **API Keys**: Navigate to the "API Keys" tab to add your OpenRouter key.
+- **MCP Servers**: Use the "MCP Servers" tab to upload JSON configurations for your local tools.
+- **Pentest Tools**: The agent automatically connects to `pentest_mcp.py` on startup. You can ask it to "run nmap on localhost" or "execute ls -la".
