@@ -30,7 +30,7 @@ A web-based MCP (Model Context Protocol) host application designed for efficient
 ### Local Setup
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/mcp-host.git
+    git clone https://github.com/utkarshkshirsagar482-star/UKs-Kali-MCP.git
     cd mcp-host
     ```
 2.  Install Node.js dependencies:
