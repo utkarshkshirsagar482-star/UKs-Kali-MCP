@@ -1,0 +1,11 @@
+
+> rest-express@1.0.0 start
+> NODE_ENV=production node dist/index.js
+
+11:27:08 AM [express] serving on port 5000
+11:27:33 AM [express] GET /api/messages 200 in 3ms :: []
+11:27:34 AM [express] GET /api/messages 304 in 1ms :: []
+11:27:35 AM [express] GET /api/messages 304 in 1ms :: []
+No OpenRouter API Key found. Returning mock response.
+11:27:35 AM [express] POST /api/agent/chat 200 in 1ms :: {"response":"I am a mock AI because no API k…
+11:27:35 AM [express] GET /api/messages 200 in 1ms :: [{"role":"user","content":"Hello verify","isAge…
