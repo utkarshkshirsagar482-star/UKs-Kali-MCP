@@ -1,0 +1,6 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+6:16:34 PM [express] serving on port 5000
+6:17:17 PM [vite] Pre-transform error: Cannot read properties of undefined (reading 'get')
