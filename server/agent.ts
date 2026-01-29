@@ -20,7 +20,7 @@ export async function processAgentMessage(userContent: string) {
 
         // 2. Retrieve context (last 10 messages to save tokens)
         const allMessages = await storage.getMessages();
-        const contextMessages = allMessages.map(m => ({ role: m.role, content: m.content })).slice(-10);
+        const contextMessages = allMessages.slice(-10).map(m => ({ role: m.role, content: m.content }));
 
         // 3. Executor: Ask for plan/action
         // Refined prompt to handle arguments better
