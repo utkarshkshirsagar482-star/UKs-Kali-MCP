@@ -4,6 +4,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Message, InsertMessage } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { MessageItem } from "@/components/message-item";
 import { Send, Trash2 } from "lucide-react";
 
 export default function ChatPage() {
@@ -65,25 +66,7 @@ export default function ChatPage() {
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
         {messages?.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`max-w-[80%] rounded-lg px-4 py-2 ${
-                msg.role === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              <div className="whitespace-pre-wrap">{msg.content}</div>
-              {msg.isAgentic && (
-                  <div className="mt-1 text-xs opacity-70 border-t pt-1 border-primary-foreground/20">
-                      Step: {msg.agentStep}
-                  </div>
-              )}
-            </div>
-          </div>
+          <MessageItem key={msg.id} msg={msg} />
         ))}
         <div ref={messagesEndRef} />
       </div>

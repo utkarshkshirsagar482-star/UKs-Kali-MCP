@@ -1,9 +1,7 @@
 
-> rest-express@1.0.0 dev
-> NODE_ENV=development tsx server/index.ts
+> rest-express@1.0.0 start
+> NODE_ENV=production node dist/index.js
 
-1:34:22 PM [express] serving on port 5000
-Connected to Pentest MCP Server
-Processing request of type ListToolsRequest
-No OpenRouter API Key found. Returning mock response.
-1:35:14 PM [express] POST /api/agent/chat 200 in 1071ms :: {"response":"I am a mock AI because no AP…
+1:20:47 PM [express] serving on port 5000
+1:21:37 PM [express] GET /api/messages 200 in 2ms :: []
+1:21:38 PM [express] GET /api/messages 304 in 1ms :: []
