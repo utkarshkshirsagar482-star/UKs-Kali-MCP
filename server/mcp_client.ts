@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 export class PentestClient {
     private client: Client | null = null;
     private transport: StdioClientTransport | null = null;
+    private toolsCache: any[] | null = null;
 
     async connect() {
         if (this.client) return;
@@ -35,9 +36,11 @@ export class PentestClient {
     }
 
     async listTools() {
+        if (this.toolsCache) return this.toolsCache;
         if (!this.client) await this.connect();
         const result = await this.client?.listTools();
-        return result?.tools || [];
+        this.toolsCache = result?.tools || [];
+        return this.toolsCache;
     }
 
     async callTool(name: string, args: any) {

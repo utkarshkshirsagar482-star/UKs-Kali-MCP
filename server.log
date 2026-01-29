@@ -1,7 +1,0 @@
-
-> rest-express@1.0.0 start
-> NODE_ENV=production node dist/index.js
-
-1:20:47 PM [express] serving on port 5000
-1:21:37 PM [express] GET /api/messages 200 in 2ms :: []
-1:21:38 PM [express] GET /api/messages 304 in 1ms :: []
