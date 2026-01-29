@@ -75,7 +75,7 @@ export class MemStorage implements IStorage {
   }
 
   async getMessages(): Promise<Message[]> {
-    return Array.from(this.messages.values()).sort((a, b) => (a.id - b.id));
+    return Array.from(this.messages.values());
   }
 
   async createMessage(insertMessage: InsertMessage): Promise<Message> {
